@@ -6,19 +6,19 @@ namespace BL.Business
 {
     public class BalAll
     {
-        private DAOAll _dao = null;
+        private DAOAll _dao;
         public DAOAll DaoObj 
         {
             get
             {
-                if (this._dao != null)
+                if (_dao != null)
                 {
-                    return this._dao;
+                    return _dao;
                 }
                 else
                 {
-                    this._dao = new DAOAll();
-                    return this._dao;
+                    _dao = new DAOAll();
+                    return _dao;
                 }
             }
         }

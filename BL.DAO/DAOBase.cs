@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.DAO
 {
@@ -40,8 +35,7 @@ namespace BL.DAO
             if (conn.ConnectionString.IndexOf("TIMEOUT", 0, StringComparison.OrdinalIgnoreCase) > 0)
             {
                 //Split connection string 
-                string[] connectionItems = conn.ConnectionString.Split(new char[] { ';' });
-                string[] connectionTimeoutArr;
+                string[] connectionItems = conn.ConnectionString.Split(';');
 
                 //Loop to connection timeout property in array
                 for (int i = 0; i < connectionItems.Length; i++)
@@ -50,7 +44,7 @@ namespace BL.DAO
                     if (connectionItems[i].IndexOf("TIMEOUT", 0, StringComparison.OrdinalIgnoreCase) > 0)
                     {
                         //Split connection timeout property
-                        connectionTimeoutArr = connectionItems[i].Split(new char[] { '=' });
+                        var connectionTimeoutArr = connectionItems[i].Split('=');
                         //Read timeout
                         connectionTimeout = Convert.ToInt32(connectionTimeoutArr[1].Trim());
                         //break the loop

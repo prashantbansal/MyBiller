@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BL.Entity
+﻿namespace BL.Entity
 {
     public class BLMenu
     {
@@ -28,7 +22,7 @@ namespace BL.Entity
 
         public BLMenu()
         {
-            this.Quantity = 0;
+            Quantity = 0;
         }
     }
 }

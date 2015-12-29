@@ -1,5 +1,4 @@
-﻿using BL.Business;
-using BL.Entity;
+﻿using BL.Entity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -45,7 +44,7 @@ namespace MyBiller
                     int itemId = Convert.ToInt32(dgMenuList.Rows[e.RowIndex].Cells["dcItemId"].Value);
 
                     FormEditMenuItem frm = new FormEditMenuItem(itemId);
-                    this.Hide();
+                    Hide();
                     frm.ShowDialog();
                 }
             }
@@ -57,9 +56,11 @@ namespace MyBiller
 
         private void BindMenuItemStatus()
         {
-            List<Tuple<int, string>> statusList = new List<Tuple<int, string>>();
-            statusList.Add(new Tuple<int, string>((int)Enums.ItemStatus.Active, Enums.ItemStatus.Active.ToString()));
-            statusList.Add(new Tuple<int, string>((int)Enums.ItemStatus.Deleted, Enums.ItemStatus.Deleted.ToString()));
+            List<Tuple<int, string>> statusList = new List<Tuple<int, string>>
+            {
+                new Tuple<int, string>((int) Enums.ItemStatus.Active, Enums.ItemStatus.Active.ToString()),
+                new Tuple<int, string>((int) Enums.ItemStatus.Deleted, Enums.ItemStatus.Deleted.ToString())
+            };
 
             cboItemStatus.DataSource = statusList;
             cboItemStatus.DisplayMember = "Item2";
@@ -70,7 +71,7 @@ namespace MyBiller
         {
             try
             {
-                this.BindGrid((Enums.ItemStatus)((System.Tuple<int, string>)(cboItemStatus.SelectedItem)).Item1);
+                BindGrid((Enums.ItemStatus)((Tuple<int, string>)cboItemStatus.SelectedItem).Item1);
             }
             catch (Exception ex)
             {

@@ -1,31 +1,24 @@
 ﻿using BL.Business;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MyBiller
 {
     public partial class MasterForm : Form
     {
-        private BalAll _bal = null;
+        private BalAll _bal;
         public BalAll BalObj
         {
             get
             {
-                if (this._bal != null)
+                if (_bal != null)
                 {
-                    return this._bal;
+                    return _bal;
                 }
                 else
                 {
-                    this._bal = new BalAll();
-                    return this._bal;
+                    _bal = new BalAll();
+                    return _bal;
                 }
             }
         }
@@ -35,7 +28,7 @@ namespace MyBiller
             try
             {
                 InitializeComponent();
-                this.FormClosing += MasterForm_FormClosing;
+                FormClosing += MasterForm_FormClosing;
             }
             catch (Exception ex)
             {
@@ -51,21 +44,21 @@ namespace MyBiller
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormOrderList frm = new FormOrderList();
-            this.Hide();
+            Hide();
             frm.ShowDialog();
         }
 
         private void CustomerSearchMenuItem_Click(object sender, EventArgs e)
         {
             FormCustomer frm = new FormCustomer();
-            this.Hide();
+            Hide();
             frm.ShowDialog();
         }
 
         private void MenuAddEditMenuItem_Click(object sender, EventArgs e)
         {
             FormMenuList frm = new FormMenuList();
-            this.Hide();
+            Hide();
             frm.ShowDialog();
         }
 
@@ -77,7 +70,7 @@ namespace MyBiller
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormEditMenuItem frm = new FormEditMenuItem(-1);
-            this.Hide();
+            Hide();
             frm.ShowDialog();
 
         }

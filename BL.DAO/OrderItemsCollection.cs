@@ -6,10 +6,10 @@ namespace BL.Entity
 {
     public class OrderItemsCollection : List<OrderItem>, IEnumerable<SqlDataRecord>
     {
-        private readonly List<OrderItem> orderItemList;
+        private readonly List<OrderItem> _orderItemList;
         public OrderItemsCollection(List<OrderItem> list)
         {
-            this.orderItemList = list;
+            _orderItemList = list;
         }
         public new IEnumerator<SqlDataRecord> GetEnumerator()
         {
@@ -20,7 +20,7 @@ namespace BL.Entity
                     new SqlMetaData("TotalPrice", SqlDbType.Decimal)
                 );
 
-            foreach (var item in orderItemList)
+            foreach (var item in _orderItemList)
             {
                 returnValue.SetInt32(0, item.ItemId);
                 returnValue.SetInt32(1, item.Quantity);

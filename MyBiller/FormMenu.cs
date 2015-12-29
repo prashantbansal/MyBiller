@@ -1,14 +1,8 @@
-﻿using BL.Business;
-using BL.Entity;
+﻿using BL.Entity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Caching;
 using System.Windows.Forms;
 
 namespace MyBiller
@@ -80,7 +74,7 @@ namespace MyBiller
                         OrderItem orderItem = order.OrderItems.FirstOrDefault(x => x.ItemId == itemId);
                         if (orderItem != null)
                         {
-                            row.Cells["dcItemTotal"].Value = orderItem.TotalPrice.ToString();
+                            row.Cells["dcItemTotal"].Value = orderItem.TotalPrice.ToString(CultureInfo.InvariantCulture);
                             row.Cells["dcItemQuantity"].Value = orderItem.Quantity.ToString();
                         }
                     }
@@ -95,21 +89,23 @@ namespace MyBiller
         {
             try
             {
-                var menuList = this.GetMenu();
+                var menuList = GetMenu();
                 dgMenuView.DataSource = menuList;
 
-                List<Tuple<int, int>> countList = new List<Tuple<int,int>>();
-                countList.Add(new Tuple<int,int>(0,0));
-                countList.Add(new Tuple<int,int>(1,1));
-                countList.Add(new Tuple<int, int>(2, 2));
-                countList.Add(new Tuple<int, int>(3, 3));
-                countList.Add(new Tuple<int, int>(4, 4));
-                countList.Add(new Tuple<int, int>(5, 5));
-                countList.Add(new Tuple<int, int>(6, 6));
-                countList.Add(new Tuple<int, int>(7, 7));
-                countList.Add(new Tuple<int, int>(8, 8));
-                countList.Add(new Tuple<int, int>(9, 0));
-                countList.Add(new Tuple<int, int>(10, 10));
+                List<Tuple<int, int>> countList = new List<Tuple<int, int>>
+                {
+                    new Tuple<int, int>(0, 0),
+                    new Tuple<int, int>(1, 1),
+                    new Tuple<int, int>(2, 2),
+                    new Tuple<int, int>(3, 3),
+                    new Tuple<int, int>(4, 4),
+                    new Tuple<int, int>(5, 5),
+                    new Tuple<int, int>(6, 6),
+                    new Tuple<int, int>(7, 7),
+                    new Tuple<int, int>(8, 8),
+                    new Tuple<int, int>(9, 0),
+                    new Tuple<int, int>(10, 10)
+                };
 
                 dcItemQuantity.DataPropertyName = "Quantity";
                 dcItemQuantity.DataSource = countList;
@@ -161,18 +157,18 @@ namespace MyBiller
                 if (itemValue != null)
                 {
                     decimal itemTotalPrice = Convert.ToDecimal(itemPrice) * Convert.ToInt32(itemValue);
-                    row.Cells["dcItemTotal"].Value = itemTotalPrice.ToString();
+                    row.Cells["dcItemTotal"].Value = itemTotalPrice.ToString(CultureInfo.InvariantCulture);
                     totalPrice = totalPrice + itemTotalPrice;
                 }
 
-                lblTotalPrice.Text = (totalPrice - discount).ToString();
+                lblTotalPrice.Text = (totalPrice - discount).ToString(CultureInfo.InvariantCulture);
 
             }
         }
 
         private void btnSearchCustomer_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
             FormCustomer frmCustomer = new FormCustomer();
             frmCustomer.ShowDialog();
         }
@@ -211,15 +207,15 @@ namespace MyBiller
                 customer.AddressDetails.City = txtCity.Text;
                 customer.AddressDetails.PinCode = txtPinCode.Text;
 
-                Order order = new Order();
-                order.OrderId = Convert.ToInt32(lblOrderId.Text);
-                order.Discount = Convert.ToDecimal(txtDiscount.Text == string.Empty ? "0" : txtDiscount.Text);
-                order.TotalWithoutTax = Convert.ToDecimal(lblTotalPrice.Text);
-                order.Tax = 0.0M;
+                Order order = new Order
+                {
+                    OrderId = Convert.ToInt32(lblOrderId.Text),
+                    Discount = Convert.ToDecimal(txtDiscount.Text == string.Empty ? "0" : txtDiscount.Text),
+                    TotalWithoutTax = Convert.ToDecimal(lblTotalPrice.Text),
+                    Tax = 0.0M
+                };
                 order.Total = order.TotalWithoutTax + order.Tax;
                 order.Status = Enums.OrderStatus.Pending;
-
-                OrderItem orderItem = null;
 
                 foreach (DataGridViewRow row in dgMenuView.Rows)
                 {
@@ -227,12 +223,14 @@ namespace MyBiller
                         !string.IsNullOrEmpty(row.Cells["dcItemQuantity"].Value.ToString()) &&
                         Convert.ToInt32(row.Cells["dcItemQuantity"].Value) > 0)
                     {
-                        orderItem = new OrderItem();
-                        orderItem.OrderId = -1;
-                        orderItem.ItemId = Convert.ToInt32(row.Cells["dcItemId"].Value);
-                        orderItem.Quantity = Convert.ToInt32(row.Cells["dcItemQuantity"].Value);
-                        orderItem.PricePerItem = Convert.ToDecimal(row.Cells["dcItemPrice"].Value);
-                        orderItem.TotalPrice = Convert.ToDecimal(row.Cells["dcItemTotal"].Value);
+                        var orderItem = new OrderItem
+                        {
+                            OrderId = -1,
+                            ItemId = Convert.ToInt32(row.Cells["dcItemId"].Value),
+                            Quantity = Convert.ToInt32(row.Cells["dcItemQuantity"].Value),
+                            PricePerItem = Convert.ToDecimal(row.Cells["dcItemPrice"].Value),
+                            TotalPrice = Convert.ToDecimal(row.Cells["dcItemTotal"].Value)
+                        };
                         order.OrderItems.Add(orderItem);
                     }
                 }
@@ -248,7 +246,7 @@ namespace MyBiller
 
         private void ViewOrderDetails(int orderId)
         {
-            this.Hide();
+            Hide();
             FormOrderDetails frm = new FormOrderDetails(orderId);
             frm.ShowDialog();
         }

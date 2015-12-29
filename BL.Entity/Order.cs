@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.Entity
 {
@@ -32,9 +29,9 @@ namespace BL.Entity
 
         public Order()
         {
-            this.OrderItems = new List<OrderItem>();
-            this.CustomerDetails = new Customer();
-            this.AddressDetails = new Address();
+            OrderItems = new List<OrderItem>();
+            CustomerDetails = new Customer();
+            AddressDetails = new Address();
         }
     }
 }

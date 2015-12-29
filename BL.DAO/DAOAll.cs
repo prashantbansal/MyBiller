@@ -32,21 +32,25 @@ namespace BL.DAO
                                               DbType = DbType.String
                                           }))
             {
-                Customer customer = null;
                 while (reader.Read())
                 {
-                    customer = new Customer();
-                    customer.CustomerId = reader.TryGetValue<int>("CustomerId");
-                    customer.FirstName = reader.TryGetValue<string>("FirstName");
-                    customer.LastName = reader.TryGetValue<string>("LastName");
-                    customer.PhoneNumber1 = reader.TryGetValue<string>("PhoneNumber1");
-                    customer.Email = reader.TryGetValue<string>("Email");
+                    var customer = new Customer
+                    {
+                        CustomerId = reader.TryGetValue<int>("CustomerId"),
+                        FirstName = reader.TryGetValue<string>("FirstName"),
+                        LastName = reader.TryGetValue<string>("LastName"),
+                        PhoneNumber1 = reader.TryGetValue<string>("PhoneNumber1"),
+                        Email = reader.TryGetValue<string>("Email"),
+                        AddressDetails =
+                        {
+                            AddressId = reader.TryGetValue<int>("AddressId"),
+                            AddressLine1 = reader.TryGetValue<string>("AddressLine1"),
+                            AddressLine2 = reader.TryGetValue<string>("AddressLine2"),
+                            City = reader.TryGetValue<string>("City"),
+                            PinCode = reader.TryGetValue<string>("PinCode")
+                        }
+                    };
 
-                    customer.AddressDetails.AddressId = reader.TryGetValue<int>("AddressId");
-                    customer.AddressDetails.AddressLine1 = reader.TryGetValue<string>("AddressLine1");
-                    customer.AddressDetails.AddressLine2 = reader.TryGetValue<string>("AddressLine2");
-                    customer.AddressDetails.City = reader.TryGetValue<string>("City");
-                    customer.AddressDetails.PinCode = reader.TryGetValue<string>("PinCode");
 
                     customerList.Add(customer);
                 }
@@ -66,17 +70,18 @@ namespace BL.DAO
                                               DbType = DbType.Int32
                                           }))
             {
-                BLMenu menu = null;
                 while (reader.Read())
                 {
-                    menu = new BLMenu();
-                    menu.ItemId = reader.TryGetValue<int>("ItemId");
-                    menu.Name = reader.TryGetValue<string>("Name");
-                    menu.Description = reader.TryGetValue<string>("Description");
-                    menu.Category = reader.TryGetValue<Enums.ItemCategory>("Category");
-                    menu.Type = reader.TryGetValue<Enums.ItemType>("Type");
-                    menu.Price = reader.TryGetValue<decimal>("Price");
-                    
+                    var menu = new BLMenu
+                    {
+                        ItemId = reader.TryGetValue<int>("ItemId"),
+                        Name = reader.TryGetValue<string>("Name"),
+                        Description = reader.TryGetValue<string>("Description"),
+                        Category = reader.TryGetValue<Enums.ItemCategory>("Category"),
+                        Type = reader.TryGetValue<Enums.ItemType>("Type"),
+                        Price = reader.TryGetValue<decimal>("Price")
+                    };
+
                     menuList.Add(menu);
                 }
             }
@@ -95,15 +100,16 @@ namespace BL.DAO
                                               DbType = DbType.Int32
                                           }))
             {
-                Order order = null;
                 while (reader.Read())
                 {
-                    order = new Order();
-                    order.OrderId = reader.TryGetValue<int>("OrderId");
-                    order.Status = reader.TryGetValue<Enums.OrderStatus>("Status");
-                    order.Total = reader.TryGetValue<decimal>("Total");
-                    order.CustomerName = reader.TryGetValue<string>("CustomerName");
-                    order.PlacedOn = reader.TryGetValue<DateTime>("PlacedOn");
+                    var order = new Order
+                    {
+                        OrderId = reader.TryGetValue<int>("OrderId"),
+                        Status = reader.TryGetValue<Enums.OrderStatus>("Status"),
+                        Total = reader.TryGetValue<decimal>("Total"),
+                        CustomerName = reader.TryGetValue<string>("CustomerName"),
+                        PlacedOn = reader.TryGetValue<DateTime>("PlacedOn")
+                    };
                     orderList.Add(order);
                 }
             }
@@ -130,21 +136,25 @@ namespace BL.DAO
             {
                 while (reader.Read())
                 {
-                    customer = new Customer();
-                    customer.CustomerId = reader.TryGetValue<int>("CustomerId");
-                    customer.FirstName = reader.TryGetValue<string>("FirstName");
-                    customer.LastName = reader.TryGetValue<string>("LastName");
-                    customer.PhoneNumber1 = reader.TryGetValue<string>("PhoneNumber1");
-                    customer.Email = reader.TryGetValue<string>("Email");
+                    customer = new Customer
+                    {
+                        CustomerId = reader.TryGetValue<int>("CustomerId"),
+                        FirstName = reader.TryGetValue<string>("FirstName"),
+                        LastName = reader.TryGetValue<string>("LastName"),
+                        PhoneNumber1 = reader.TryGetValue<string>("PhoneNumber1"),
+                        Email = reader.TryGetValue<string>("Email")
+                    };
 
                     if (addressId > -1)
                     {
-                        customer.AddressDetails = new Address();
-                        customer.AddressDetails.AddressId = addressId;
-                        customer.AddressDetails.AddressLine1 = reader.TryGetValue<string>("AddressLine1");
-                        customer.AddressDetails.AddressLine2 = reader.TryGetValue<string>("AddressLine2");
-                        customer.AddressDetails.City = reader.TryGetValue<string>("City");
-                        customer.AddressDetails.PinCode = reader.TryGetValue<string>("PinCode");
+                        customer.AddressDetails = new Address
+                        {
+                            AddressId = addressId,
+                            AddressLine1 = reader.TryGetValue<string>("AddressLine1"),
+                            AddressLine2 = reader.TryGetValue<string>("AddressLine2"),
+                            City = reader.TryGetValue<string>("City"),
+                            PinCode = reader.TryGetValue<string>("PinCode")
+                        };
 
                     }
                 }
@@ -185,17 +195,18 @@ namespace BL.DAO
                     order.AddressDetails.PinCode = reader.TryGetValue<string>("Pincode");
                 }
 
-                OrderItem orderItem = null;
                 if (reader.NextResult())
                 {
                     while (reader.Read())
                     {
-                        orderItem = new OrderItem();
-                        orderItem.ItemId = reader.TryGetValue<int>("ItemID");
-                        orderItem.ItemName = reader.TryGetValue<string>("ItemName");
-                        orderItem.Quantity = reader.TryGetValue<int>("Quantity");
-                        orderItem.PricePerItem = reader.TryGetValue<decimal>("PricePerItem");
-                        orderItem.TotalPrice = reader.TryGetValue<decimal>("TotalPrice");
+                        var orderItem = new OrderItem
+                        {
+                            ItemId = reader.TryGetValue<int>("ItemID"),
+                            ItemName = reader.TryGetValue<string>("ItemName"),
+                            Quantity = reader.TryGetValue<int>("Quantity"),
+                            PricePerItem = reader.TryGetValue<decimal>("PricePerItem"),
+                            TotalPrice = reader.TryGetValue<decimal>("TotalPrice")
+                        };
                         order.OrderItems.Add(orderItem);
                     }
                 }
@@ -376,14 +387,16 @@ namespace BL.DAO
             {
                 while (reader.Read())
                 {
-                    blMenu = new BLMenu();
-                    blMenu.ItemId = reader.TryGetValue<int>("ItemId");
-                    blMenu.Name = reader.TryGetValue<string>("Name");
-                    blMenu.Description = reader.TryGetValue<string>("Description");
-                    blMenu.Category = reader.TryGetValue<Enums.ItemCategory>("Category");
-                    blMenu.Type = reader.TryGetValue<Enums.ItemType>("Type");
-                    blMenu.Price = reader.TryGetValue<decimal>("Price");
-                    blMenu.Status = reader.TryGetValue<Enums.ItemStatus>("Status");
+                    blMenu = new BLMenu
+                    {
+                        ItemId = reader.TryGetValue<int>("ItemId"),
+                        Name = reader.TryGetValue<string>("Name"),
+                        Description = reader.TryGetValue<string>("Description"),
+                        Category = reader.TryGetValue<Enums.ItemCategory>("Category"),
+                        Type = reader.TryGetValue<Enums.ItemType>("Type"),
+                        Price = reader.TryGetValue<decimal>("Price"),
+                        Status = reader.TryGetValue<Enums.ItemStatus>("Status")
+                    };
                 }
             }
             return blMenu;

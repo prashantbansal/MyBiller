@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BL.Entity
+﻿namespace BL.Entity
 {
     public class Customer
     {
@@ -24,7 +18,7 @@ namespace BL.Entity
 
         public Customer()
         {
-            this.AddressDetails = new Address();
+            AddressDetails = new Address();
         }
     }
 }

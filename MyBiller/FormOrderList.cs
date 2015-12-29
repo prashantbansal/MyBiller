@@ -1,5 +1,4 @@
-﻿using BL.Business;
-using BL.Entity;
+﻿using BL.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +14,8 @@ namespace MyBiller
             {
                 InitializeComponent();
 
-                this.LoadOrderStatusList();
-                this.BindGrid(Enums.OrderStatus.Pending);
+                LoadOrderStatusList();
+                BindGrid(Enums.OrderStatus.Pending);
             }
             catch (Exception ex)
             {
@@ -26,10 +25,12 @@ namespace MyBiller
 
         private void LoadOrderStatusList()
         {
-            List<Tuple<int, string>> orderStatusList = new List<Tuple<int,string>>();
-            orderStatusList.Add(new Tuple<int,string>((int)Enums.OrderStatus.Pending, "Pending"));
-            orderStatusList.Add(new Tuple<int,string>((int)Enums.OrderStatus.Delivered, "Delivered"));
-            orderStatusList.Add(new Tuple<int,string>((int)Enums.OrderStatus.Cancelled, "Cancelled"));
+            List<Tuple<int, string>> orderStatusList = new List<Tuple<int, string>>
+            {
+                new Tuple<int, string>((int) Enums.OrderStatus.Pending, "Pending"),
+                new Tuple<int, string>((int) Enums.OrderStatus.Delivered, "Delivered"),
+                new Tuple<int, string>((int) Enums.OrderStatus.Cancelled, "Cancelled")
+            };
             cboOrderStatus.DataSource = orderStatusList;
             cboOrderStatus.DisplayMember = "Item2";
        }
@@ -38,7 +39,7 @@ namespace MyBiller
         {
             try
             {
-               this.BindGrid((Enums.OrderStatus)((System.Tuple<int, string>)(cboOrderStatus.SelectedItem)).Item1);
+               BindGrid((Enums.OrderStatus)((Tuple<int, string>)cboOrderStatus.SelectedItem).Item1);
             }
             catch (Exception ex)
             {
@@ -63,7 +64,7 @@ namespace MyBiller
                     int orderId = Convert.ToInt32(dgOrderList.Rows[e.RowIndex].Cells["dcOrderId"].Value);
 
                     FormOrderDetails frm = new FormOrderDetails(orderId);
-                    this.Hide();
+                    Hide();
                     frm.ShowDialog();
                 }
             }

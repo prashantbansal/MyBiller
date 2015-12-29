@@ -1,6 +1,6 @@
-﻿using BL.Business;
-using BL.Entity;
+﻿using BL.Entity;
 using System;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 
@@ -48,7 +48,7 @@ namespace MyBiller
             {
                 lblOrderID.Text = order.OrderId.ToString();
                 lblOrderStatus.Text = order.Status.ToString();
-                lblTotalWithoutTax.Text = order.TotalWithoutTax.ToString();
+                lblTotalWithoutTax.Text = order.TotalWithoutTax.ToString(CultureInfo.InvariantCulture);
                 lblTotal.Text = order.Total.ToString();
                 lblDiscount.Text = order.Discount.ToString();
                 lblPlacedOn.Text = order.PlacedOn.ToString();
@@ -66,7 +66,7 @@ namespace MyBiller
             try
             {
                 FormCustomer frm = new FormCustomer();
-                this.Hide();
+                Hide();
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace MyBiller
         {
             try
             {
-                this.Hide();
+                Hide();
                 FormMenu frm = new FormMenu(Convert.ToInt32(lblCustomerId.Text), Convert.ToInt32(lblAddressId.Text), Convert.ToInt32(lblOrderID.Text));
                 frm.ShowDialog();
             }
@@ -105,7 +105,7 @@ namespace MyBiller
         private void NavigateBackToOrderList()
         {
             FormOrderList frm = new FormOrderList();
-            this.Hide();
+            Hide();
             frm.ShowDialog();
         }
 
